@@ -8,9 +8,15 @@
 #define ALARM 60*8+8;
 
 
-byte brightness_raw = 15;
+byte brightness_raw = 2;
 byte brightness;
-
+extern NTPClient ntp;
+extern unsigned long startEpoc;
+unsigned long currentEpoc;
+unsigned int countdowntime_s=15*60;//15 minutes *60 seconds
+unsigned int minutesLeft=15;
+unsigned int secondsLeft=0;
+byte blinkstate=0;
 void setup () {
     Serial.begin(921600);
     Serial.println("\nBooting...");
@@ -87,10 +93,10 @@ void drawBigTime(byte hours, byte minutes, int x, int y) {
 
 void showTimeOnDisplay(NTPClient t) {
     //getDisplay().clearScreen();
-    drawBigTime(t.getHours(), t.getMinutes(), 0,0);
-    drawSmallTime(t.getHours(), t.getMinutes(), t.getSeconds(), 0,11);
+    drawBigTime(minutesLeft, secondsLeft, 0,0);
+    //drawSmallTime(t.getHours(), t.getMinutes(), t.getSeconds(), 0,11);
     getDisplay().writeScreen();
-    getDisplay().setBrightness(brightness+1);
+    getDisplay().setBrightness(brightness_raw*blinkstate+1);
 }
 void updateBrightness() {
     int light = map( analogRead(PN_LDR) , -10, 400, 0, 15);
@@ -103,10 +109,28 @@ void updateBrightness() {
 }
 void loop () {
     updateNTP();
-
+    currentEpoc=ntp.getEpochTime();
+    if(currentEpoc-startEpoc<=countdowntime_s)
+    {long timeDiff=currentEpoc-startEpoc;
+    
+    int seconddiff=countdowntime_s-timeDiff;
+   
+    if(seconddiff<0)
+    seconddiff=0;
+    //  Serial.print("Time difference ");
+    //  Serial.println(timeDiff);
+    //  Serial.print("Time difference min");
+    //  Serial.println(minutes);
+     Serial.print("Time difference s");
+      Serial.println(seconddiff);
+     minutesLeft=seconddiff/60;
+     secondsLeft=seconddiff%60;}
+     else{
+         blinkstate=!blinkstate;
+     }
     showTimeOnDisplay(getNTPClient());
 
-    updateBrightness();
+   // updateBrightness();
 
     delay(100);
     Serial.print(".");
