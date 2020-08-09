@@ -11,8 +11,9 @@
 #include "font_5x10.h"
 
 #define HT_DATA 13
+#define HT_DATA 12
 #define HT_WR 14
-#define HT_CS 16
+#define HT_CS 13
 #define TOTAL_WIDTH 24
 #define TOTAL_HEIGHT 16
 #define BUFFER_SIZE 48
