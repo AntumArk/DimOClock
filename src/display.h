@@ -13,7 +13,8 @@
 #define HT_DATA 12
 #define HT_WR 14
 #define HT_CS 13
-#define TOTAL_WIDTH 24
+#define HT_CS2 17
+#define TOTAL_WIDTH 48
 #define TOTAL_HEIGHT 16
 #define BUFFER_SIZE 48
 
@@ -26,6 +27,6 @@ void drawPixelAt(int x, int y, bool set);
 void drawChar3x5(int x, int y ,int index);
 void drawChar5x10(int x, int y ,int index);
 void drawChar12x16(int x, int y ,int index);
-Adafruit_HT1632 getDisplay();
+Adafruit_HT1632LEDMatrix getDisplay();
 
 #endif // DISPLAY_H

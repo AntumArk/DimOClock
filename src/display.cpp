@@ -1,27 +1,28 @@
 #include "display.h"
 
-Adafruit_HT1632 display = Adafruit_HT1632(HT_DATA, HT_WR, HT_CS);
+// Adafruit_HT1632 display = Adafruit_HT1632(HT_DATA, HT_WR, HT_CS);
+// Adafruit_HT1632 display2 = Adafruit_HT1632(HT_DATA, HT_WR, HT_CS2);
 
-
+Adafruit_HT1632LEDMatrix matrix = Adafruit_HT1632LEDMatrix(HT_DATA, HT_WR, HT_CS, HT_CS2);
 void setupDisplay() {
     Serial.print("Setting up display... ");
+  matrix.begin(ADA_HT1632_COMMON_16NMOS);
+  matrix.fillScreen();
+  delay(500);
+  matrix.clearScreen();
+  matrix.setTextWrap(false);
 
-    display.begin(ADA_HT1632_COMMON_16NMOS);
-
-    for (int y=0; y<TOTAL_HEIGHT; y++) {
-        for (int x=0; x<TOTAL_WIDTH; x++) {
-            setPixelAt(x, y);
-            delay(5);
-            display.writeScreen();
-        }
-    }
-    delay(500);
-    display.clearScreen();
+    // display.begin(ADA_HT1632_COMMON_16NMOS);
+    // display2.begin(ADA_HT1632_COMMON_16NMOS);
+  
+    // delay(500);
+    // display.clearScreen();
+    // display2.clearScreen();
     Serial.println();
 }
 
-Adafruit_HT1632 getDisplay() {
-    return display;
+Adafruit_HT1632LEDMatrix getDisplay() {
+    return matrix;
 }
 
 void setPixelAt(int x, int y) {
@@ -34,9 +35,18 @@ void clrPixelAt(int x, int y) {
 
 void drawPixelAt(int x, int y, bool set) {
     if (set) {
-        display.setPixel(pixelAt(x,y));
+        matrix.setPixel(x,y);
+        // for (int i = 0; i < 7; i++)
+        // {
+        //     for (int j = 0; j < 8; j++)
+        //     {
+        //         matrix.setPixel(1,j);
+        //     }
+            
+        // }
+        
     } else {
-        display.clrPixel(pixelAt(x,y));
+        matrix.clrPixel(x,y);
     }
 }
 
