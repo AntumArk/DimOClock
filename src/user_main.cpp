@@ -87,8 +87,8 @@ void drawBigTime(byte hours, byte minutes, int x, int y) {
     
     drawChar12x16(x+0  , y, m1);
     drawChar12x16(x+12  , y, m2);
-    drawChar12x16(x+24 , y, h1);
-    drawChar12x16(x+36 , y, h2);
+    //drawChar12x16(x+13 , y, m1);
+    //drawChar12x16(x+19 , y, m2);
 }
 
 void showTimeOnDisplay(NTPClient t) {
@@ -128,10 +128,10 @@ void loop () {
      else{
          blinkstate=!blinkstate;
      }
-   // showTimeOnDisplay(getNTPClient());
+    showTimeOnDisplay(getNTPClient());
 
    // updateBrightness();
-    drawPixelAt(1,1,true);
+
     delay(100);
     Serial.print(".");
 }
