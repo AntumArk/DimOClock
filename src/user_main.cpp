@@ -17,15 +17,24 @@ unsigned int countdowntime_s=15*60;//15 minutes *60 seconds
 unsigned int minutesLeft=15;
 unsigned int secondsLeft=0;
 byte blinkstate=0;
+int pinCheck=1;
 void setup () {
     Serial.begin(921600);
     Serial.println("\nBooting...");
 
     Serial.println("Setting up LDR...");
     // internal pullup on phototransistors
-    pinMode(PN_LDR, INPUT);
-    digitalWrite(PN_LDR, HIGH);
-
+    //pinMode(PN_LDR, INPUT);
+    //digitalWrite(PN_LDR, HIGH);
+    // while(1){
+    //     digitalWrite(HT_CS2,pinCheck);
+    //     pinCheck=1;
+    //     Serial.println("blink");
+    //     delay(200);
+    //      digitalWrite(HT_CS2,pinCheck);
+    //     pinCheck=0;
+    //      delay(200);
+    // }
     setupDisplay();
     setupWifi();
     setupNTP();
@@ -85,10 +94,13 @@ void drawBigTime(byte hours, byte minutes, int x, int y) {
     byte m1 = minutes/10;
     byte m2 = minutes%10;
     
-    drawChar12x16(x+0  , y, m1);
-    drawChar12x16(x+12  , y, m2);
-    //drawChar12x16(x+13 , y, m1);
-    //drawChar12x16(x+19 , y, m2);
+    drawChar12x16(x+0  , y, m1,1);
+    drawChar12x16(x+12  , y, m2,1);
+     delay(100);
+    drawChar12x16(x+0 , y, h1,0);
+    drawChar12x16(x+12 , y, h2,0);
+   // drawPixelAt(x+14,y+5,1,1);
+     //drawPixelAt(x+14,y+8,1,1);
 }
 
 void showTimeOnDisplay(NTPClient t) {
@@ -97,6 +109,8 @@ void showTimeOnDisplay(NTPClient t) {
     //drawSmallTime(t.getHours(), t.getMinutes(), t.getSeconds(), 0,11);
     getDisplay().writeScreen();
     getDisplay().setBrightness(brightness_raw*blinkstate+1);
+     getDisplay2().writeScreen();
+    getDisplay2().setBrightness(brightness_raw*blinkstate+1);
 }
 void updateBrightness() {
     int light = map( analogRead(PN_LDR) , -10, 400, 0, 15);
@@ -134,5 +148,6 @@ void loop () {
 
     delay(100);
     Serial.print(".");
+   // Serial.println(currentEpoc);
 }
 
