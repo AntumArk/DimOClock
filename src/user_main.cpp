@@ -10,9 +10,10 @@
 
 byte brightness_raw = 2;
 byte brightness;
-extern NTPClient ntp;
-extern unsigned long startEpoc;
-unsigned long currentEpoc;
+//extern NTPClient ntp;
+//extern unsigned long startEpoc;
+//unsigned long currentEpoc;
+unsigned long startMillis=0;
 unsigned int countdowntime_s=15*60;//15 minutes *60 seconds
 unsigned int minutesLeft=15;
 unsigned int secondsLeft=0;
@@ -22,7 +23,7 @@ void setup () {
     Serial.begin(921600);
     Serial.println("\nBooting...");
 
-    Serial.println("Setting up LDR...");
+    //Serial.println("Setting up LDR...");
     // internal pullup on phototransistors
     //pinMode(PN_LDR, INPUT);
     //digitalWrite(PN_LDR, HIGH);
@@ -36,8 +37,9 @@ void setup () {
     //      delay(200);
     // }
     setupDisplay();
-    setupWifi();
-    setupNTP();
+    startMillis=millis();
+    //setupWifi();
+    //setupNTP();
 }
 
 
@@ -96,7 +98,7 @@ void drawBigTime(byte hours, byte minutes, int x, int y) {
     
     drawChar12x16(x+0  , y, m1,1);
     drawChar12x16(x+12  , y, m2,1);
-     delay(100);
+    
     drawChar12x16(x+0 , y, h1,0);
     drawChar12x16(x+12 , y, h2,0);
    // drawPixelAt(x+14,y+5,1,1);
@@ -123,9 +125,11 @@ void updateBrightness() {
 }
 void loop () {
     updateNTP();
-    currentEpoc=ntp.getEpochTime();
-    if(currentEpoc-startEpoc<=countdowntime_s)
-    {long timeDiff=currentEpoc-startEpoc;
+    millis();
+    //currentEpoc=ntp.getEpochTime();
+
+    if((millis()-startMillis)/1000<=countdowntime_s)
+    {long timeDiff=(millis()-startMillis)/1000;
     
     int seconddiff=countdowntime_s-timeDiff;
    
