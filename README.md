@@ -1,9 +1,9 @@
 #DimOClock
 
-Goal is to create wall clock with main features:
+Goal is to create 15 minute countdown clock with main features:
 
-* show current time
-* show time left until alarm
-* adjust display brightness to be still visible but not light up room at night
+* show time left until end
+* adjust display brightness when time is out
 
+Font generator is used to generate strings to copy to source code, so you could draw custom fonts.
 
