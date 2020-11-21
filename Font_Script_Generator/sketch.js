@@ -32,12 +32,17 @@ function setup() {
   canvas = createCanvas(0, 0);
   input = createInput();
   nameInput = createInput();
-  nameInput.position(600, 80);
-  input.position(400, 80);
-  canvas.position(600, 150);
+  nameInput.position(200, 200);
+  nameInput.value("hello");
+  input.position(200, 180);
+  input.value("10x10");
+  canvas.position(500, 180);
   rectMode(RADIUS);
   button=createButton("copy");
   button.mousePressed(copyToClipboard);
+  tryReadDimensions();
+  keyCode = RETURN;
+  keyPressed();
 }
 
 function draw() {
@@ -131,6 +136,7 @@ function keyPressed() {
      sprites.push(new Rectangle(i*20+10, j*20+10, false,i,j));
     }
    gridCreated = true;
+   keyCode=0;
 }
 }
 
